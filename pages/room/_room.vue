@@ -1,13 +1,41 @@
 <template>
   <div class="container mx-auto p-5">
     <div class="sm:grid grid-cols-3">
-      <div class="grid grid-cols-1 gap-5 col-span-1 bg-white p-5">
+      <div
+        class="
+          grid grid-cols-1
+          gap-5
+          col-span-1
+          bg-slate-400
+          dark:bg-zinc-700
+          p-5
+        "
+      >
         <div class="card bg-base-100 shadow-xl">
           <video src="" id="local_video" autoplay width="100%"></video>
           <h1 class="text-center p-2" id="name"></h1>
+          <div class="card-actions justify-center">
+            <div class="flex items-center mb-3">
+              <label for="" class="mr-2">CAM</label>
+              <input type="checkbox" class="toggle" id="cam_toggle" checked />
+            </div>
+            <div class="flex items-center">
+              <label for="" class="mr-2">MIC</label>
+              <input type="checkbox" class="toggle" id="mic_toggle" checked />
+            </div>
+          </div>
         </div>
       </div>
-      <div class="bg-slate-400 p-5 col-span-2 grid grid-cols-1 sm:grid-cols-2">
+      <div
+        class="
+          bg-slate-400
+          dark:bg-zinc-700
+          p-5
+          col-span-2
+          grid grid-cols-1
+          sm:grid-cols-2
+        "
+      >
         <div id="vide_grid"></div>
       </div>
       <div id="show_user_id"></div>
@@ -41,15 +69,17 @@ export default {
     const webcambtn = document.getElementById("webcambtn");
     const myvideo = document.getElementById("local_video");
     const videoGrid = document.getElementById("vide_grid");
-    const get_link_btn = document.getElementById("get_link");
-    const input_link = document.getElementById("input_link");
-    const call_btn = document.getElementById("call_btn");
+    const cam_toggle = document.getElementById("cam_toggle");
+    const mic_toggle = document.getElementById("mic_toggle");
 
     myvideo.muted = true;
+
+    let myVideo = null;
 
     var peer = new Peer(undefined, {
       path: "/peerjs",
       host: process.env.SOCKET_URL,
+      // port: 4000,
     });
 
     myvideo.muted = true;
@@ -61,6 +91,7 @@ export default {
       })
       .then((stream) => {
         myvideo.srcObject = stream;
+        myVideo = stream;
 
         peer.on("call", (call) => {
           call.answer(stream);
@@ -71,7 +102,8 @@ export default {
         });
 
         socket.on("user-connected", (userId) => {
-          document.getElementById("show_user_id").innerHTML = userId;
+          document.getElementById("show_user_id").innerHTML =
+            "user connected : " + userId;
           connectToNewUser(userId, stream);
         });
       });
@@ -88,7 +120,6 @@ export default {
       const call = peer.call(userId, stream);
       const video = document.createElement("video");
       video.setAttribute("id", userId);
-      video.classList.add("card");
       call.on("stream", (userVideoStream) => {
         addVideoStream(video, userVideoStream);
       });
@@ -102,6 +133,7 @@ export default {
     function addVideoStream(video, stream) {
       video.srcObject = stream;
       video.classList.add("card");
+      video.classList.add("shadow-xl");
       video.addEventListener("loadedmetadata", () => {
         video.play();
       });
@@ -111,6 +143,24 @@ export default {
     setInterval(() => {
       document.getElementById("show_user_id").innerHTML = "";
     }, 10000);
+
+    cam_toggle.addEventListener("click", () => {
+      const enabled = myVideo.getVideoTracks()[0].enabled;
+      if (enabled) {
+        myVideo.getVideoTracks()[0].enabled = false;
+      } else {
+        myVideo.getVideoTracks()[0].enabled = true;
+      }
+    });
+
+    mic_toggle.addEventListener("click", () => {
+      const enabled = myVideo.getAudioTracks()[0].enabled;
+      if (enabled) {
+        myVideo.getAudioTracks()[0].enabled = false;
+      } else {
+        myVideo.getAudioTracks()[0].enabled = true;
+      }
+    });
   },
 };
 </script>
