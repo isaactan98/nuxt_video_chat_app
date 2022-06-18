@@ -15,6 +15,9 @@
               <input type="checkbox" class="toggle" id="mic_toggle" checked />
             </div>
           </div>
+          <div class="card-actions justify-center">
+            <button class="btn btn-error btn-sm">X</button>
+          </div>
         </div>
       </div>
       <div
@@ -27,7 +30,7 @@
           sm:grid-cols-2
         "
       >
-        <div id="vide_grid"></div>
+        <div id="vide_grid" class="inline-block"></div>
       </div>
       <div id="show_user_id" class="p-2"></div>
     </div>
@@ -55,6 +58,9 @@ export default {
       window.location.href = "/";
     }
 
+    const user = prompt("Enter your name");
+    document.getElementById("name").innerHTML = user;
+
     const socket = io(process.env.SOCKET_URL_PORT);
 
     const webcambtn = document.getElementById("webcambtn");
@@ -66,6 +72,7 @@ export default {
     myvideo.muted = true;
 
     let myVideo = null;
+    let peer_id = null;
 
     var peer = new Peer(undefined, {
       path: "/peerjs",
@@ -86,34 +93,40 @@ export default {
 
         peer.on("call", (call) => {
           call.answer(stream);
+
+          console.log(call);
+
           const video = document.createElement("video");
+          const div = document.createElement("div");
+          const span = document.createElement("span");
+          span.innerHTML = call.metadata.user_name;
+          div.setAttribute("data-id", call.metadata.user_id);
+
           call.on("stream", (userVideoStream) => {
-            addVideoStream(video, userVideoStream);
+            addVideoStream(video, userVideoStream, div, span);
           });
         });
 
-        socket.on("user-connected", (userId) => {
+        socket.on("user-connected", (userId, userName) => {
           document.getElementById("show_user_id").innerHTML =
-            "user connected : " + userId;
+            "user connected : " + userName;
           document
             .getElementById("show_user_id")
             .classList.add("text-green-500");
           document
             .getElementById("show_user_id")
             .classList.remove("text-red-500");
-          connectToNewUser(userId, stream);
+          connectToNewUser(userId, stream, userName);
           update_show_user();
         });
 
-        socket.on("user-disconnected", (user_id) => {
+        socket.on("user-disconnected", (user_id, userName) => {
           document.getElementById("show_user_id").innerHTML =
-            "user disconnected : " + user_id;
+            "user disconnected : " + userName;
           document
             .getElementById("show_user_id")
             .classList.remove("text-green-500");
-          document
-            .getElementById("show_user_id")
-            .classList.add("text-red-500");
+          document.getElementById("show_user_id").classList.add("text-red-500");
           update_show_user();
         });
       });
@@ -123,15 +136,27 @@ export default {
     });
 
     peer.on("open", (id) => {
-      socket.emit("join-room", this.param, id);
+      peer_id = id;
+      socket.emit("join-room", this.param, id, user);
     });
 
-    function connectToNewUser(userId, stream) {
-      const call = peer.call(userId, stream);
+    function connectToNewUser(userId, stream, userName) {
+      let options = {
+        metadata: {
+          user_id: peer_id,
+          user_name: user,
+        },
+      };
+      const call = peer.call(userId, stream, options);
       const video = document.createElement("video");
-      video.setAttribute("id", userId);
+      const div = document.createElement("div");
+      const span = document.createElement("span");
+
+      span.innerHTML = userName;
+      div.setAttribute("id", userId);
+
       call.on("stream", (userVideoStream) => {
-        addVideoStream(video, userVideoStream);
+        addVideoStream(video, userVideoStream, div, span);
       });
       call.on("close", () => {
         document.getElementById(userId).remove();
@@ -140,14 +165,25 @@ export default {
       peers[userId] = call;
     }
 
-    function addVideoStream(video, stream) {
+    function addVideoStream(video, stream, div, span) {
       video.srcObject = stream;
-      video.classList.add("card");
-      video.classList.add("shadow-xl");
+
+      span.classList.add("badge");
+      span.classList.add("mx-auto");
+      span.classList.add("absolute");
+      span.classList.add("bottom-0");
+
+      div.classList.add("card");
+      div.classList.add("m-2");
+      div.classList.add("shadow-xl");
+
       video.addEventListener("loadedmetadata", () => {
         video.play();
       });
-      videoGrid.append(video);
+
+      div.append(video, span);
+
+      videoGrid.append(div);
     }
 
     function update_show_user() {
