@@ -1,16 +1,7 @@
 <template>
   <div class="container mx-auto p-5">
-    <div class="sm:grid grid-cols-3">
-      <div
-        class="
-          grid grid-cols-1
-          gap-5
-          col-span-1
-          bg-slate-400
-          dark:bg-zinc-700
-          p-5
-        "
-      >
+    <div class="sm:grid grid-cols-3 card shadow-xl">
+      <div class="bg-slate-400 dark:bg-zinc-700 p-5">
         <div class="card bg-base-100 shadow-xl">
           <video src="" id="local_video" autoplay width="100%"></video>
           <h1 class="text-center p-2" id="name"></h1>
@@ -38,7 +29,7 @@
       >
         <div id="vide_grid"></div>
       </div>
-      <div id="show_user_id"></div>
+      <div id="show_user_id" class="p-2"></div>
     </div>
   </div>
 </template>
@@ -104,7 +95,26 @@ export default {
         socket.on("user-connected", (userId) => {
           document.getElementById("show_user_id").innerHTML =
             "user connected : " + userId;
+          document
+            .getElementById("show_user_id")
+            .classList.add("text-green-500");
+          document
+            .getElementById("show_user_id")
+            .classList.remove("text-red-500");
           connectToNewUser(userId, stream);
+          update_show_user();
+        });
+
+        socket.on("user-disconnected", (user_id) => {
+          document.getElementById("show_user_id").innerHTML =
+            "user disconnected : " + user_id;
+          document
+            .getElementById("show_user_id")
+            .classList.remove("text-green-500");
+          document
+            .getElementById("show_user_id")
+            .classList.add("text-red-500");
+          update_show_user();
         });
       });
 
@@ -140,9 +150,11 @@ export default {
       videoGrid.append(video);
     }
 
-    setInterval(() => {
-      document.getElementById("show_user_id").innerHTML = "";
-    }, 10000);
+    function update_show_user() {
+      setTimeout(() => {
+        document.getElementById("show_user_id").innerHTML = "";
+      }, 10000);
+    }
 
     cam_toggle.addEventListener("click", () => {
       const enabled = myVideo.getVideoTracks()[0].enabled;
