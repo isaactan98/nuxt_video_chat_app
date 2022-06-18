@@ -58,7 +58,7 @@ export default {
     var peer = new Peer(undefined, {
       path: "/peerjs",
       host: process.env.SOCKET_URL,
-      port: "4000",
+      port: process.env.SOCKET_PORT,
     });
 
     myvideo.muted = true;

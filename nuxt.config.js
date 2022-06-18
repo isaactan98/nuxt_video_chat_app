@@ -60,6 +60,7 @@ export default {
   },
   env: {
     SOCKET_URL: process.env.SOCKET_URL,
-    SOCKET_URL_PORT: process.env.SOCKET_URL_PORT
+    SOCKET_URL_PORT: process.env.SOCKET_URL_PORT,
+    SOCKET_PORT: process.env.SOCKET_PORT
   },
 }
