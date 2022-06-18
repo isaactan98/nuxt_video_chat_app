@@ -1,21 +1,13 @@
 <template>
   <div class="container mx-auto p-5">
-    <div class="grid grid-cols-3">
+    <div class="sm:grid grid-cols-3">
       <div class="grid grid-cols-1 gap-5 col-span-1 bg-white p-5">
         <div class="card bg-base-100 shadow-xl">
           <video src="" id="local_video" autoplay width="100%"></video>
           <h1 class="text-center p-2" id="name"></h1>
-          <div class="card-body">
-            <div class="card-actions justify-end">
-              <button class="btn btn-primary" id="webcambtn">
-                Check Web Cam
-              </button>
-              <button id="get_link" class="btn btn-primary">Get Link</button>
-            </div>
-          </div>
         </div>
       </div>
-      <div class="bg-slate-400 p-5 col-span-2 grid grid-cols-2">
+      <div class="bg-slate-400 p-5 col-span-2 grid grid-cols-1 sm:grid-cols-2">
         <div id="vide_grid"></div>
       </div>
       <div id="show_user_id"></div>

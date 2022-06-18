@@ -2,7 +2,7 @@
   <div class="container mx-auto p-5">
     <div class="grid">
       <div class="grid bg-white p-5">
-        <div class="card w-96 mx-auto bg-base-100 shadow-xl">
+        <div class="card sm:w-96 mx-auto bg-base-100 shadow-xl">
           <video src="" id="local_video" autoplay width="100%"></video>
           <h1 class="text-center p-2" id="name"></h1>
           <div class="card-body">
