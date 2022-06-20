@@ -1,7 +1,10 @@
 <template>
   <div class="container mx-auto p-5">
     <div class="grid">
-      <div class="card bg-slate-500 dark:bg-zinc-700 p-5 text-center" v-if="load">
+      <div
+        class="card bg-slate-500 dark:bg-zinc-700 p-5 text-center"
+        v-if="load == null"
+      >
         The server is heating up 🔥
       </div>
       <div class="grid card bg-slate-500 dark:bg-zinc-700 p-5" v-else>
@@ -37,49 +40,47 @@ export default {
   name: "IndexPage",
   data() {
     return {
-      load: true,
+      load: null,
     };
   },
   mounted() {
-    const myvideo = document.getElementById("local_video");
-    const webcambtn = document.getElementById("webcambtn");
-    const get_link = document.getElementById("get_link");
-    const call_btn = document.getElementById("call_btn");
-    let room_id = null;
+    this.$axios.$post(process.env.SOCKET_URL_PORT + "/loading").then((s) => {
+      this.load = s;
 
-    this.$axios.$post(process.env.SOCKET_URL_PORT + "/loading").then(() => {
-      this.load = false;
+      document.onreadystatechange = async () => {
+        const myvideo = document.getElementById("local_video");
+        const webcambtn = document.getElementById("webcambtn");
+        const get_link = document.getElementById("get_link");
+        const call_btn = document.getElementById("call_btn");
+
+        webcambtn.onclick = async () => {
+          myvideo.muted = true;
+          navigator.mediaDevices
+            .getUserMedia({
+              video: true,
+              audio: true,
+            })
+            .then((stream) => {
+              myvideo.srcObject = stream;
+            });
+        };
+
+        get_link.onclick = async () => {
+          get_link.classList.add("loading");
+          this.$axios
+            .$post(process.env.SOCKET_URL_PORT + "/get_uuid")
+            .then((s) => {
+              document.getElementById("input_link").value = s;
+              get_link.classList.remove("loading");
+            });
+        };
+
+        call_btn.onclick = async () => {
+          window.location.href =
+            "/room/" + document.getElementById("input_link").value;
+        };
+      };
     });
-
-    if (this.load == false) {
-      webcambtn.onclick = async () => {
-        myvideo.muted = true;
-        navigator.mediaDevices
-          .getUserMedia({
-            video: true,
-            audio: true,
-          })
-          .then((stream) => {
-            myvideo.srcObject = stream;
-          });
-      };
-
-      get_link.onclick = async () => {
-        get_link.classList.add("loading");
-        this.$axios
-          .$post(process.env.SOCKET_URL_PORT + "/get_uuid")
-          .then((s) => {
-            document.getElementById("input_link").value = s;
-            room_id = s;
-            get_link.classList.remove("loading");
-          });
-      };
-
-      call_btn.onclick = async () => {
-        window.location.href =
-          "/room/" + document.getElementById("input_link").value;
-      };
-    }
   },
 };
 </script>
