@@ -62,7 +62,7 @@ export default {
 
     myvideo.muted = true;
 
-    let myVideo = null;
+    let mystream = null;
     let peer_id = null;
 
     var peer = new Peer(undefined, {
@@ -71,7 +71,6 @@ export default {
       // port: 4000,
     });
 
-    myvideo.muted = true;
     const peers = {};
     navigator.mediaDevices
       .getUserMedia({
@@ -80,7 +79,7 @@ export default {
       })
       .then((stream) => {
         myvideo.srcObject = stream;
-        myVideo = stream;
+        mystream = stream;
 
         peer.on("call", (call) => {
           call.answer(stream);
@@ -188,20 +187,21 @@ export default {
     }
 
     cam_toggle.addEventListener("click", () => {
-      const enabled = myVideo.getVideoTracks()[0].enabled;
+      const enabled = mystream.getVideoTracks()[0].enabled;
+
       if (enabled) {
-        myVideo.getVideoTracks()[0].enabled = false;
+        mystream.getVideoTracks()[0].enabled = false;
       } else {
-        myVideo.getVideoTracks()[0].enabled = true;
+        mystream.getVideoTracks()[0].enabled = true;
       }
     });
 
     mic_toggle.addEventListener("click", () => {
-      const enabled = myVideo.getAudioTracks()[0].enabled;
+      const enabled = mystream.getAudioTracks()[0].enabled;
       if (enabled) {
-        myVideo.getAudioTracks()[0].enabled = false;
+        mystream.getAudioTracks()[0].enabled = false;
       } else {
-        myVideo.getAudioTracks()[0].enabled = true;
+        mystream.getAudioTracks()[0].enabled = true;
       }
     });
 
