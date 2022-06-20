@@ -160,10 +160,13 @@ export default {
       video.srcObject = stream;
 
       span.classList.add("badge");
+      span.classList.add("glass");
+      span.classList.add("text-zinc-800");
       span.classList.add("mx-auto");
       span.classList.add("absolute");
       span.classList.add("bottom-0");
-      span.classList.add("w-full");
+      span.classList.add("left-[25%]");
+      span.classList.add("w-1/2");
 
       div.classList.add("card");
       div.classList.add("m-2");
