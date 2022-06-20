@@ -15,7 +15,7 @@
               <input type="checkbox" class="toggle" id="mic_toggle" checked />
             </div>
           </div>
-          <div class="card-actions justify-center">
+          <div class="card-actions justify-center py-2">
             <button class="btn btn-error btn-sm" id="hangup_btn">X</button>
           </div>
         </div>

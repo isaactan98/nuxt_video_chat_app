@@ -6,17 +6,20 @@
           <video src="" id="local_video" autoplay width="100%"></video>
           <h1 class="text-center p-2" id="name"></h1>
           <div class="card-body">
-            <div class="card-actions justify-end">
-              <button class="btn btn-primary" id="webcambtn">
+            <div class="card-actions justify-end sm:justify-between">
+              <button class="btn btn-primary btn-sm" id="webcambtn">
                 Check Web Cam
               </button>
-              <button id="get_link" class="btn btn-primary">Get Link</button>
+              <button id="get_link" class="btn btn-primary btn-sm">
+                Get Link
+              </button>
             </div>
             <div class="card-action justify-between flex">
               <input
                 type="text"
                 id="input_link"
                 class="input input-bordered w-full mr-2"
+                autocomplete="off"
               /><button id="call_btn" class="btn btn-primary">Call</button>
             </div>
           </div>
@@ -49,16 +52,17 @@ export default {
     };
 
     get_link.onclick = async () => {
-      get_link.classList.add("loading")
+      get_link.classList.add("loading");
       this.$axios.$post(process.env.SOCKET_URL_PORT + "/get_uuid").then((s) => {
         document.getElementById("input_link").value = s;
         room_id = s;
-        get_link.classList.remove("loading")
+        get_link.classList.remove("loading");
       });
     };
 
     call_btn.onclick = async () => {
-      window.location.href = "/room/" + room_id;
+      window.location.href =
+        "/room/" + document.getElementById("input_link").value;
     };
   },
 };
