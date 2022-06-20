@@ -49,9 +49,11 @@ export default {
     };
 
     get_link.onclick = async () => {
+      get_link.classList.add("loading")
       this.$axios.$post(process.env.SOCKET_URL_PORT + "/get_uuid").then((s) => {
         document.getElementById("input_link").value = s;
         room_id = s;
+        get_link.classList.remove("loading")
       });
     };
 

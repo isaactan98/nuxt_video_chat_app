@@ -1,6 +1,6 @@
 <template>
-  <div class="container mx-auto p-5">
-    <div class="sm:grid grid-cols-3 card shadow-xl">
+  <div class="mx-auto p-5">
+    <div class="sm:grid grid-cols-4 card shadow-xl">
       <div class="bg-slate-400 dark:bg-zinc-700 p-5">
         <div class="card bg-base-100 shadow-xl">
           <video src="" id="local_video" autoplay width="100%"></video>
@@ -16,21 +16,12 @@
             </div>
           </div>
           <div class="card-actions justify-center">
-            <button class="btn btn-error btn-sm">X</button>
+            <button class="btn btn-error btn-sm" id="hangup_btn">X</button>
           </div>
         </div>
       </div>
-      <div
-        class="
-          bg-slate-400
-          dark:bg-zinc-700
-          p-5
-          col-span-2
-          grid grid-cols-1
-          sm:grid-cols-2
-        "
-      >
-        <div id="vide_grid" class="inline-block"></div>
+      <div class="bg-slate-400 dark:bg-zinc-700 p-5 col-span-3">
+        <div id="vide_grid" class="inline-flex"></div>
       </div>
       <div id="show_user_id" class="p-2"></div>
     </div>
@@ -63,11 +54,11 @@ export default {
 
     const socket = io(process.env.SOCKET_URL_PORT);
 
-    const webcambtn = document.getElementById("webcambtn");
     const myvideo = document.getElementById("local_video");
     const videoGrid = document.getElementById("vide_grid");
     const cam_toggle = document.getElementById("cam_toggle");
     const mic_toggle = document.getElementById("mic_toggle");
+    const hangup_btn = document.getElementById("hangup_btn");
 
     myvideo.muted = true;
 
@@ -94,7 +85,7 @@ export default {
         peer.on("call", (call) => {
           call.answer(stream);
 
-          console.log(call);
+          // console.log(call);
 
           const video = document.createElement("video");
           const div = document.createElement("div");
@@ -172,6 +163,7 @@ export default {
       span.classList.add("mx-auto");
       span.classList.add("absolute");
       span.classList.add("bottom-0");
+      span.classList.add("w-full");
 
       div.classList.add("card");
       div.classList.add("m-2");
@@ -208,6 +200,13 @@ export default {
       } else {
         myVideo.getAudioTracks()[0].enabled = true;
       }
+    });
+
+    hangup_btn.addEventListener("click", function () {
+      peer.on("close", (cnn) => {
+        cnn.close();
+      });
+      window.location.href = "/";
     });
   },
 };
