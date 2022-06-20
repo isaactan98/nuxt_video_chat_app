@@ -12,7 +12,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }
     ],
     script: [{
       src: "https://unpkg.com/peerjs@1.4.5/dist/peerjs.min.js"
@@ -51,7 +51,7 @@ export default {
       short_name: 'NVCA',
     },
     icon: {
-      source: "@/static/favicon.ico"
+      source: "@/static/favicon.png"
     }
   },
 
