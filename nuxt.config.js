@@ -3,11 +3,12 @@ require('dotenv').config();
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Nuxt Video App',
+    titleTemplate: '%s - Nuxt Video Chat App',
+    title: 'Nuxt Video Chat App',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: 'A video chat app built with NuxtJs as frontend & express as backend. The real time technology use is PeerJs. ' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
@@ -45,7 +46,12 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en'
+      lang: 'en',
+      name: 'Nuxt Video Chat App',
+      short_name: 'NVCA',
+    },
+    icon: {
+      source: "@/static/favicon.ico"
     }
   },
 
