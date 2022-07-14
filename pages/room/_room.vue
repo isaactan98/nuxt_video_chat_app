@@ -1,29 +1,32 @@
 <template>
-  <div class="mx-auto p-5">
-    <div class="sm:grid grid-cols-4 card shadow-xl">
-      <div class="bg-slate-100 dark:bg-zinc-700 p-5">
+  <div class="mx-auto p-5 relative w-full">
+    <div class="sm:grid grid-cols-4 shadow-xl h-[85vh]">
+      <div class="p-5">
         <div class="card bg-base-100 shadow-xl">
           <video src="" id="local_video" autoplay width="100%"></video>
           <h1 class="text-center p-2" id="name"></h1>
-          <div class="card-actions justify-center">
-            <div class="flex items-center mb-3">
-              <label for="" class="mr-2">CAM</label>
-              <input type="checkbox" class="toggle" id="cam_toggle" checked />
-            </div>
-            <div class="flex items-center">
-              <label for="" class="mr-2">MIC</label>
-              <input type="checkbox" class="toggle" id="mic_toggle" checked />
-            </div>
-          </div>
-          <div class="card-actions justify-center py-2">
-            <button class="btn btn-error btn-sm" id="hangup_btn">X</button>
-          </div>
         </div>
       </div>
-      <div class="bg-slate-100 dark:bg-zinc-700 p-5 col-span-3">
+      <div class="p-5 col-span-3">
         <div id="vide_grid" class="inline-flex"></div>
       </div>
       <div id="show_user_id" class="p-2"></div>
+    </div>
+    <!-- Footer Action -->
+    <div class="fixed bottom-0 w-full -ml-5">
+      <div
+        class="flex justify-center items-center p-5 bg-white dark:bg-zinc-800"
+      >
+        <div class="flex items-center mr-3">
+          <label for="" class="mr-2">CAM</label>
+          <input type="checkbox" class="toggle" id="cam_toggle" checked />
+        </div>
+        <div class="flex items-center mr-3">
+          <label for="" class="mr-2">MIC</label>
+          <input type="checkbox" class="toggle" id="mic_toggle" checked />
+        </div>
+        <button class="btn btn-error btn-sm" id="hangup_btn">X</button>
+      </div>
     </div>
   </div>
 </template>
@@ -218,4 +221,9 @@ export default {
 </script>
 
 <style>
+@media screen and (max-width: 960) {
+  video {
+    max-width: 360px;
+  }
+}
 </style>
