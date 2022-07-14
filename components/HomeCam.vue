@@ -30,7 +30,7 @@
           />
           <div class="card-actions justify-end sm:justify-between">
             <button class="btn btn-primary btn-sm" id="webcambtn">
-              Check Web Cam
+              Check Cam
             </button>
             <button id="get_link" class="btn btn-primary btn-sm">
               Get Link
