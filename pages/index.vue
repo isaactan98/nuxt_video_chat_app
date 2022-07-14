@@ -16,6 +16,11 @@
 import HomeCam from "../components/HomeCam.vue";
 export default {
   name: "IndexPage",
+  head() {
+    return {
+      title: "Home",
+    };
+  },
   data() {
     return {
       load: null,

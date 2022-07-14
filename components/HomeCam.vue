@@ -18,7 +18,7 @@
         autoplay
         width="100%"
       ></video>
-      <div class="card-body justify-between p-0 lg:p-8">
+      <div class="card-body justify-between lg:p-8">
         <h2 class="card-title">Welcome <span id="show_name"></span></h2>
         <div class="grid gap-5">
           <input
