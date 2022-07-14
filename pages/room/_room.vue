@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto p-5">
     <div class="sm:grid grid-cols-4 card shadow-xl">
-      <div class="bg-slate-400 dark:bg-zinc-700 p-5">
+      <div class="bg-slate-100 dark:bg-zinc-700 p-5">
         <div class="card bg-base-100 shadow-xl">
           <video src="" id="local_video" autoplay width="100%"></video>
           <h1 class="text-center p-2" id="name"></h1>
@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div class="bg-slate-400 dark:bg-zinc-700 p-5 col-span-3">
+      <div class="bg-slate-100 dark:bg-zinc-700 p-5 col-span-3">
         <div id="vide_grid" class="inline-flex"></div>
       </div>
       <div id="show_user_id" class="p-2"></div>

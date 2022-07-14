@@ -13,39 +13,36 @@
     >
       <video
         src=""
-        class="rounded-lg shadow-md flex-1"
+        class="rounded-lg shadow-lg flex-1"
         id="local_video"
         autoplay
         width="100%"
       ></video>
-      <div class="card-body flex-1">
-        <div class="card-body justify-between p-0 lg:p-8">
-          <h2 class="card-title">Welcome <span id="show_name"></span></h2>
-          <div class="grid gap-5">
+      <div class="card-body justify-between p-0 lg:p-8">
+        <h2 class="card-title">Welcome <span id="show_name"></span></h2>
+        <div class="grid gap-5">
+          <input
+            type="text"
+            class="input input-bordered"
+            id="name"
+            placeholder="Enter your name"
+            autocomplete="off"
+          />
+          <div class="card-actions justify-end sm:justify-between">
+            <button class="btn btn-primary btn-sm" id="webcambtn">
+              Check Web Cam
+            </button>
+            <button id="get_link" class="btn btn-primary btn-sm">
+              Get Link
+            </button>
+          </div>
+          <div class="card-action justify-between flex">
             <input
               type="text"
-              class="input input-bordered"
-              id="name"
-              placeholder="Enter your name"
+              id="input_link"
+              class="input input-bordered w-full mr-2"
               autocomplete="off"
-            />
-
-            <div class="card-actions justify-end sm:justify-between">
-              <button class="btn btn-primary btn-sm" id="webcambtn">
-                Check Web Cam
-              </button>
-              <button id="get_link" class="btn btn-primary btn-sm">
-                Get Link
-              </button>
-            </div>
-            <div class="card-action justify-between flex">
-              <input
-                type="text"
-                id="input_link"
-                class="input input-bordered w-full mr-2"
-                autocomplete="off"
-              /><button id="call_btn" class="btn btn-primary">Call</button>
-            </div>
+            /><button id="call_btn" class="btn btn-primary">Call</button>
           </div>
         </div>
       </div>
