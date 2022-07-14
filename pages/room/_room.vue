@@ -49,7 +49,9 @@ export default {
       window.location.href = "/";
     }
 
-    const user = prompt("Enter your name");
+    // const user = prompt("Enter your name");
+    const user = localStorage.getItem("name") ?? "User";
+
     document.getElementById("name").innerHTML = user;
 
     const socket = io(process.env.SOCKET_URL_PORT);
