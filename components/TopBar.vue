@@ -1,11 +1,11 @@
 <template>
   <div class="navbar bg-base-100">
     <div class="flex-1">
-      <nuxt-link to="/" class="btn btn-ghost normal-case text-xl"
-        >Nuxt Video Chat</nuxt-link
-      >
+      <nuxt-link to="/" class="btn btn-ghost normal-case text-xl">
+        Nuxt Video Chat
+      </nuxt-link>
     </div>
-    <div class="flex-none dropdown dropdown-end">
+    <div class="flex-none pr-2">
       <label class="swap swap-rotate">
         <!-- this hidden checkbox controls the state -->
         <input type="checkbox" id="mode_btn" />
