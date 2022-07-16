@@ -1,5 +1,9 @@
 <template>
   <div class="mx-auto p-5 relative w-full">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
     <div class="sm:grid grid-cols-4 shadow-xl h-[85vh]">
       <div class="p-5">
         <div class="card bg-base-100 shadow-xl">
@@ -25,7 +29,9 @@
           <label for="" class="mr-2">MIC</label>
           <input type="checkbox" class="toggle" id="mic_toggle" checked />
         </div>
-        <button class="btn btn-error btn-sm" id="hangup_btn">X</button>
+        <button class="btn btn-sm rounded-full bg-red-500" id="hangup_btn">
+          <span class="material-symbols-outlined text-white"> call_end </span>
+        </button>
       </div>
     </div>
   </div>

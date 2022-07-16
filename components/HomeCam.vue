@@ -13,7 +13,7 @@
     >
       <video
         src=""
-        class="rounded-lg shadow-lg flex-1"
+        class="rounded-lg shadow-lg flex-1 max-w-sm"
         id="local_video"
         autoplay
         width="100%"

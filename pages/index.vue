@@ -2,7 +2,7 @@
   <div class="container mx-auto p-5">
     <div class="grid">
       <div
-        class="card bg-slate-500 dark:bg-zinc-700 p-5 text-center"
+        class="card bg-blue-500 dark:bg-zinc-700 p-5 text-center"
         v-if="load == null"
       >
         The server is heating up 🔥
