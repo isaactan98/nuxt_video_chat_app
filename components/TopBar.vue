@@ -57,7 +57,7 @@ export default {
         moon.classList.add("swap-off");
         moon.classList.remove("swap-on");
       } else {
-        document.documentElement.setAttribute("data-theme", "winter");
+        document.documentElement.setAttribute("data-theme", "emerald");
         document.documentElement.classList.remove("dark");
         localStorage.setItem("theme", "light");
         sun.classList.add("swap-off");
@@ -70,7 +70,7 @@ export default {
     mode.addEventListener("click", function (e) {
       if (localStorage.theme == "dark") {
         document.documentElement.classList.remove("dark");
-        document.documentElement.setAttribute("data-theme", "winter");
+        document.documentElement.setAttribute("data-theme", "emerald");
         localStorage.setItem("theme", "light");
       } else {
         document.documentElement.classList.add("dark");

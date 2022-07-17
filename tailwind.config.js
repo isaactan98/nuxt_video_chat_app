@@ -13,7 +13,7 @@ module.exports = {
   darkMode: "class",
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ['winter', 'halloween'],
+    themes: ['emerald', 'halloween'],
     darkTheme: "halloween"
   }
 }
