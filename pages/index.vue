@@ -5,7 +5,7 @@
         class="card bg-blue-500 dark:bg-zinc-700 p-5 text-center"
         v-if="load == null"
       >
-        The server is heating up 🔥
+        <span class="text-white"> The server is heating up 🔥 </span>
       </div>
       <HomeCam v-else />
     </div>
