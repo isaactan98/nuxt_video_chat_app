@@ -97,7 +97,7 @@ export default {
           const innerdiv = document.createElement("div");
           const span = document.createElement("span");
           span.innerHTML = call.metadata.user_name;
-          outerdiv.setAttribute("data-id", call.metadata.user_id);
+          outerdiv.setAttribute("id", call.metadata.user_id);
 
           call.on("stream", (userVideoStream) => {
             addVideoStream(video, userVideoStream, outerdiv, innerdiv, span);
