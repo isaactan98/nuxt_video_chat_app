@@ -1,26 +1,20 @@
 <template>
   <div class="mx-auto p-5 relative w-full">
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
-    />
-    <div class="sm:grid grid-cols-4 shadow-xl h-[85vh]">
-      <div class="p-5">
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <div id="show_user_id" class="p-2"></div>
+    <div class="flex flex-wrap shadow-xl mb-10" id="show_grid">
+      <div class="p-5 flex-grow">
         <div class="card bg-base-100 shadow-xl">
           <video src="" id="local_video" autoplay width="100%"></video>
           <h1 class="text-center p-2" id="name"></h1>
         </div>
       </div>
-      <div class="p-5 col-span-3">
-        <div id="vide_grid" class="inline-flex"></div>
-      </div>
-      <div id="show_user_id" class="p-2"></div>
+      <div id="vide_grid"></div>
     </div>
     <!-- Footer Action -->
     <div class="fixed bottom-0 w-full -ml-5">
-      <div
-        class="flex justify-center items-center p-5 bg-white dark:bg-zinc-800"
-      >
+      <div class="flex justify-center items-center p-5 bg-white dark:bg-zinc-800">
         <div class="flex items-center mr-3">
           <label for="" class="mr-2">CAM</label>
           <input type="checkbox" class="toggle" id="cam_toggle" checked />
@@ -67,6 +61,7 @@ export default {
 
     const myvideo = document.getElementById("local_video");
     const videoGrid = document.getElementById("vide_grid");
+    const show_grid = document.getElementById("show_grid");
     const cam_toggle = document.getElementById("cam_toggle");
     const mic_toggle = document.getElementById("mic_toggle");
     const hangup_btn = document.getElementById("hangup_btn");
@@ -98,13 +93,14 @@ export default {
           // console.log(call);
 
           const video = document.createElement("video");
-          const div = document.createElement("div");
+          const outerdiv = document.createElement("div");
+          const innerdiv = document.createElement("div");
           const span = document.createElement("span");
           span.innerHTML = call.metadata.user_name;
-          div.setAttribute("data-id", call.metadata.user_id);
+          outerdiv.setAttribute("data-id", call.metadata.user_id);
 
           call.on("stream", (userVideoStream) => {
-            addVideoStream(video, userVideoStream, div, span);
+            addVideoStream(video, userVideoStream, outerdiv, innerdiv, span);
           });
         });
 
@@ -150,14 +146,15 @@ export default {
       };
       const call = peer.call(userId, stream, options);
       const video = document.createElement("video");
-      const div = document.createElement("div");
+      const outerdiv = document.createElement("div");
+      const innerdiv = document.createElement("div");
       const span = document.createElement("span");
 
       span.innerHTML = userName;
-      div.setAttribute("id", userId);
+      outerdiv.setAttribute("id", userId);
 
       call.on("stream", (userVideoStream) => {
-        addVideoStream(video, userVideoStream, div, span);
+        addVideoStream(video, userVideoStream, outerdiv, innerdiv, span);
       });
       call.on("close", () => {
         document.getElementById(userId).remove();
@@ -166,29 +163,27 @@ export default {
       peers[userId] = call;
     }
 
-    function addVideoStream(video, stream, div, span) {
+    function addVideoStream(video, stream, outerdiv, innerdiv, span) {
       video.srcObject = stream;
 
-      span.classList.add("badge");
-      span.classList.add("glass");
-      span.classList.add("text-zinc-800");
-      span.classList.add("mx-auto");
-      span.classList.add("absolute");
-      span.classList.add("bottom-0");
-      span.classList.add("left-[25%]");
-      span.classList.add("w-1/2");
+      span.classList.add("text-center");
+      span.classList.add("p-2");
 
-      div.classList.add("card");
-      div.classList.add("m-2");
-      div.classList.add("shadow-xl");
+      innerdiv.classList.add("card");
+      innerdiv.classList.add("shadow-xl");
 
       video.addEventListener("loadedmetadata", () => {
         video.play();
       });
 
-      div.append(video, span);
+      innerdiv.append(video, span)
 
-      videoGrid.append(div);
+      outerdiv.classList.add("p-5");
+      outerdiv.classList.add("flex-grow");
+
+      outerdiv.append(innerdiv);
+
+      show_grid.insertBefore(outerdiv, videoGrid.children[0]);
     }
 
     function update_show_user() {
