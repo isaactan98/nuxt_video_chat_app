@@ -6,7 +6,7 @@
     <div class="flex flex-wrap shadow-xl mb-10" id="show_grid">
       <div class="p-5 flex-grow">
         <div class="card bg-base-100 shadow-xl">
-          <video src="" id="local_video" autoplay width="100%"></video>
+          <video src="" id="local_video" autoplay width="100%" playsinline></video>
           <h1 class="text-center p-2" id="name"></h1>
         </div>
       </div>
@@ -165,6 +165,7 @@ export default {
 
     function addVideoStream(video, stream, outerdiv, innerdiv, span) {
       video.srcObject = stream;
+      video.setAttribute("playsinline", true);
 
       span.classList.add("text-center");
       span.classList.add("p-2");

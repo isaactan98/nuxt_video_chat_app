@@ -1,7 +1,6 @@
 <template>
   <div class="grid card px-5 py-10 sm:p-20">
-    <div
-      class="
+    <div class="
         card
         flex-col
         lg:flex-row
@@ -9,25 +8,13 @@
         sm:p-5
         shadow-xl
         dark:bg-zinc-800
-      "
-    >
-      <video
-        src=""
-        class="rounded-lg shadow-lg flex-1 max-w-sm"
-        id="local_video"
-        autoplay
-        width="100%"
-      ></video>
+      ">
+      <video src="" class="rounded-lg shadow-lg flex-1 max-w-sm" id="local_video" autoplay width="100%"
+        playsinline></video>
       <div class="card-body justify-between lg:p-8">
         <h2 class="card-title">Welcome <span id="show_name"></span></h2>
         <div class="grid gap-5">
-          <input
-            type="text"
-            class="input input-bordered"
-            id="name"
-            placeholder="Enter your name"
-            autocomplete="off"
-          />
+          <input type="text" class="input input-bordered" id="name" placeholder="Enter your name" autocomplete="off" />
           <div class="card-actions justify-end sm:justify-between">
             <button class="btn btn-primary btn-sm" id="webcambtn">
               Check Cam
@@ -37,12 +24,8 @@
             </button>
           </div>
           <div class="card-action justify-between flex">
-            <input
-              type="text"
-              id="input_link"
-              class="input input-bordered w-full mr-2"
-              autocomplete="off"
-            /><button id="call_btn" class="btn btn-primary">Call</button>
+            <input type="text" id="input_link" class="input input-bordered w-full mr-2" autocomplete="off" /><button
+              id="call_btn" class="btn btn-primary">Call</button>
           </div>
         </div>
       </div>
