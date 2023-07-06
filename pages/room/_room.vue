@@ -77,11 +77,14 @@ export default {
       // port: 4000, // ? for local
     });
 
-    const cameraFace = localStorage.getItem("cameraFace") == true ? { facingMode: { exact: 'environment' } } : "user";
+    console.log(localStorage.getItem("cameraFace"));
+
+    const cameraFace = localStorage.getItem("cameraFace") == 'rear' ? { facingMode: { exact: 'environment' } } : "user";
 
     const peers = {};
 
     setTimeout(() => {
+      console.log("cameraface", cameraFace);
       navigator.mediaDevices
         .getUserMedia({
           video: cameraFace,
