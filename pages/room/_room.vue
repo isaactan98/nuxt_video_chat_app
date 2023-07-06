@@ -74,13 +74,15 @@ export default {
     var peer = new Peer(undefined, {
       path: "/peerjs",
       host: process.env.SOCKET_URL,
-      // port: 4000,
+      port: 4000, // ? for local
     });
+
+    const cameraFace = localStorage.getItem("cameraFace") ?? "user";
 
     const peers = {};
     navigator.mediaDevices
       .getUserMedia({
-        video: true,
+        video: cameraFace,
         audio: true,
       })
       .then((stream) => {
