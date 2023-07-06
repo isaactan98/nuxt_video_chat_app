@@ -74,7 +74,7 @@ export default {
     var peer = new Peer(undefined, {
       path: "/peerjs",
       host: process.env.SOCKET_URL,
-      port: 4000, // ? for local
+      // port: 4000, // ? for local
     });
 
     const cameraFace = localStorage.getItem("cameraFace") ? { facingMode: { exact: 'environment' } } : "user";
