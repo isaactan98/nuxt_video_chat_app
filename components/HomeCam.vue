@@ -44,7 +44,7 @@
 export default {
   data() {
     return {
-      cameraFace: "user",
+      cameraFace: false,
     };
   },
   mounted() {
@@ -88,23 +88,25 @@ export default {
     showCamera() {
       const myvideo = document.getElementById("local_video");
       myvideo.srcObject = null;
-      console.warn(this.cameraFace);
+      let camera = this.cameraFace == true ? { facingMode: { exact: 'environment' } } : "user";
       myvideo.muted = true;
       navigator.mediaDevices
         .getUserMedia({
-          video: this.cameraFace,
+          video: camera,
           audio: true,
         })
         .then((stream) => {
           myvideo.srcObject = stream;
         }).catch((e) => {
           alert("Camera not found");
-          this.cameraFace = "user";
+          this.cameraFace = false;
+          localStorage.setItem("cameraFace", this.cameraFace);
           this.showCamera();
         })
     },
     toggleCamera() {
-      this.cameraFace = this.cameraFace == "user" ? { facingMode: { exact: 'environment' } } : "user";
+      this.cameraFace = !this.cameraFace
+      localStorage.setItem("cameraFace", this.cameraFace);
       this.showCamera();
     },
   },

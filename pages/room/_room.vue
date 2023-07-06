@@ -74,59 +74,57 @@ export default {
     var peer = new Peer(undefined, {
       path: "/peerjs",
       host: process.env.SOCKET_URL,
-      // port: 4000,
+      // port: 4000, // ? for local
     });
 
+    const cameraFace = localStorage.getItem("cameraFace") == true ? { facingMode: { exact: 'environment' } } : "user";
+
     const peers = {};
-    navigator.mediaDevices
-      .getUserMedia({
-        video: true,
-        audio: true,
-      })
-      .then((stream) => {
-        myvideo.srcObject = stream;
-        mystream = stream;
 
-        peer.on("call", (call) => {
-          call.answer(stream);
+    setTimeout(() => {
+      navigator.mediaDevices
+        .getUserMedia({
+          video: cameraFace,
+          audio: true,
+        })
+        .then((stream) => {
+          myvideo.srcObject = stream;
+          mystream = stream;
 
-          // console.log(call);
+          mystream.getAudioTracks()[0].enabled = false;
+          mic_toggle.checked = false;
 
-          const video = document.createElement("video");
-          const outerdiv = document.createElement("div");
-          const innerdiv = document.createElement("div");
-          const span = document.createElement("span");
-          span.innerHTML = call.metadata.user_name;
-          outerdiv.setAttribute("id", call.metadata.user_id);
+          peer.on("call", (call) => {
+            call.answer(stream);
 
-          call.on("stream", (userVideoStream) => {
-            addVideoStream(video, userVideoStream, outerdiv, innerdiv, span);
+            const video = document.createElement("video");
+            const outerdiv = document.createElement("div");
+            const innerdiv = document.createElement("div");
+            const span = document.createElement("span");
+            span.innerHTML = call.metadata.user_name;
+            outerdiv.setAttribute("id", call.metadata.user_id);
+
+            call.on("stream", (userVideoStream) => {
+              addVideoStream(video, userVideoStream, outerdiv, innerdiv, span);
+            });
+          });
+
+          socket.on("user-connected", (userId, userName) => {
+            document.getElementById("show_user_id").innerHTML = "user connected : " + userName;
+            document.getElementById("show_user_id").classList.add("text-green-500");
+            document.getElementById("show_user_id").classList.remove("text-red-500");
+            connectToNewUser(userId, stream, userName);
+            update_show_user();
+          });
+
+          socket.on("user-disconnected", (user_id, userName) => {
+            document.getElementById("show_user_id").innerHTML = "user disconnected : " + userName;
+            document.getElementById("show_user_id").classList.remove("text-green-500");
+            document.getElementById("show_user_id").classList.add("text-red-500");
+            update_show_user();
           });
         });
-
-        socket.on("user-connected", (userId, userName) => {
-          document.getElementById("show_user_id").innerHTML =
-            "user connected : " + userName;
-          document
-            .getElementById("show_user_id")
-            .classList.add("text-green-500");
-          document
-            .getElementById("show_user_id")
-            .classList.remove("text-red-500");
-          connectToNewUser(userId, stream, userName);
-          update_show_user();
-        });
-
-        socket.on("user-disconnected", (user_id, userName) => {
-          document.getElementById("show_user_id").innerHTML =
-            "user disconnected : " + userName;
-          document
-            .getElementById("show_user_id")
-            .classList.remove("text-green-500");
-          document.getElementById("show_user_id").classList.add("text-red-500");
-          update_show_user();
-        });
-      });
+    }, 300);
 
     socket.on("user-disconnected", (userId) => {
       if (peers[userId]) peers[userId].close();
