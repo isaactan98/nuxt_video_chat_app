@@ -100,7 +100,7 @@ export default {
         });
     },
     toggleCamera() {
-      this.cameraFace = this.cameraFace == "user" ? "{ facingMode: { exact: 'environment' } }" : "user";
+      this.cameraFace = this.cameraFace == "user" ? { facingMode: { exact: 'environment' } } : "user";
       this.showCamera();
     },
   },
