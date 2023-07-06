@@ -100,6 +100,7 @@ export default {
         }).catch((e) => {
           alert("Camera not found");
           this.cameraFace = false;
+          localStorage.setItem("cameraFace", this.cameraFace);
           this.showCamera();
         })
     },

@@ -77,7 +77,7 @@ export default {
       // port: 4000, // ? for local
     });
 
-    const cameraFace = localStorage.getItem("cameraFace") ? { facingMode: { exact: 'environment' } } : "user";
+    const cameraFace = localStorage.getItem("cameraFace") == true ? { facingMode: { exact: 'environment' } } : "user";
 
     const peers = {};
 
@@ -90,6 +90,9 @@ export default {
         .then((stream) => {
           myvideo.srcObject = stream;
           mystream = stream;
+
+          mystream.getAudioTracks()[0].enabled = false;
+          mic_toggle.checked = false;
 
           peer.on("call", (call) => {
             call.answer(stream);
