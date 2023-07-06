@@ -28,8 +28,10 @@
 
 <script>
 export default {
-  data: {
-    darkMode: false,
+  data() {
+    return {
+      darkMode: false,
+    }
   },
   mounted() {
 

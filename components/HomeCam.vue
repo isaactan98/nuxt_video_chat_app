@@ -15,9 +15,16 @@
         <h2 class="card-title">Welcome <span id="show_name"></span></h2>
         <div class="grid gap-5">
           <input type="text" class="input input-bordered" id="name" placeholder="Enter your name" autocomplete="off" />
-          <div class="card-actions justify-end sm:justify-between">
-            <button class="btn btn-primary btn-sm" id="webcambtn">
+          <div class="card-actions justify-between">
+            <button class="btn btn-primary btn-sm w-full" id="webcambtn" @click="showCamera()">
               Check Cam
+            </button>
+            <button class="btn btn-primary btn-sm" @click="toggleCamera()">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />
+              </svg>
             </button>
             <button id="get_link" class="btn btn-primary btn-sm">
               Get Link
@@ -35,8 +42,12 @@
 
 <script>
 export default {
+  data() {
+    return {
+      cameraFace: "user",
+    };
+  },
   mounted() {
-    const myvideo = document.getElementById("local_video");
     const webcambtn = document.getElementById("webcambtn");
     const get_link = document.getElementById("get_link");
     const call_btn = document.getElementById("call_btn");
@@ -52,18 +63,6 @@ export default {
     get_name.addEventListener("keyup", function (e) {
       document.getElementById("show_name").innerHTML = get_name.value;
     });
-
-    webcambtn.onclick = async () => {
-      myvideo.muted = true;
-      navigator.mediaDevices
-        .getUserMedia({
-          video: true,
-          audio: true,
-        })
-        .then((stream) => {
-          myvideo.srcObject = stream;
-        });
-    };
 
     get_link.onclick = async () => {
       get_link.classList.add("loading");
@@ -84,6 +83,30 @@ export default {
       window.location.href =
         "/room/" + document.getElementById("input_link").value;
     };
+  },
+  methods: {
+    showCamera() {
+      const myvideo = document.getElementById("local_video");
+      myvideo.srcObject = null;
+      console.warn(this.cameraFace);
+      myvideo.muted = true;
+      navigator.mediaDevices
+        .getUserMedia({
+          video: this.cameraFace,
+          audio: true,
+        })
+        .then((stream) => {
+          myvideo.srcObject = stream;
+        }).catch((e) => {
+          alert("Camera not found");
+          this.cameraFace = "user";
+          this.showCamera();
+        })
+    },
+    toggleCamera() {
+      this.cameraFace = this.cameraFace == "user" ? { facingMode: { exact: 'environment' } } : "user";
+      this.showCamera();
+    },
   },
 };
 </script>
