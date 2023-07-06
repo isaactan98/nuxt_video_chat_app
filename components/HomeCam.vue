@@ -37,6 +37,15 @@
         </div>
       </div>
     </div>
+
+    <div v-if="recentRoom">
+      <div class="card mt-5">
+        <h2 class="card-title mb-2">Recent Room</h2>
+        <div class="card-actions justify-between">
+          <input type="text" class="input input-bordered w-full" v-model="recentRoom" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -45,6 +54,7 @@ export default {
   data() {
     return {
       cameraFace: false,
+      recentRoom: null
     };
   },
   mounted() {
@@ -52,6 +62,9 @@ export default {
     const get_link = document.getElementById("get_link");
     const call_btn = document.getElementById("call_btn");
     const get_name = document.getElementById("name");
+
+    this.checkIfDateExpired();
+    this.recentRoom = localStorage.getItem("recent-room");
 
     if (localStorage.getItem("name")) {
       document.getElementById("show_name").innerHTML =
@@ -68,6 +81,9 @@ export default {
       get_link.classList.add("loading");
       this.$axios.$post(process.env.SOCKET_URL_PORT + "/get_uuid").then((s) => {
         document.getElementById("input_link").value = s;
+        localStorage.setItem("recent-room", s)
+        localStorage.setItem("recent-date", new Date().getTime());
+        this.recentRoom = null;
         get_link.classList.remove("loading");
       });
     };
@@ -109,6 +125,18 @@ export default {
       localStorage.setItem("cameraFace", this.cameraFace);
       this.showCamera();
     },
+    checkIfDateExpired() {
+      let recentDate = localStorage.getItem("recent-date");
+      if (recentDate) {
+        let date = new Date().getTime();
+        let diff = date - recentDate;
+        let minutes = Math.floor(diff / 60000);
+        if (minutes > 60) {
+          localStorage.removeItem("recent-room");
+          localStorage.removeItem("recent-date");
+        }
+      }
+    }
   },
 };
 </script>
