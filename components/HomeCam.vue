@@ -104,7 +104,7 @@ export default {
         })
     },
     toggleCamera() {
-      this.cameraFace = this.cameraFace == true ? { facingMode: { exact: 'environment' } } : "user";
+      this.cameraFace = !this.cameraFace
       localStorage.setItem("cameraFace", this.cameraFace);
       this.showCamera();
     },
