@@ -15,8 +15,8 @@
         <h2 class="card-title">Welcome <span id="show_name"></span></h2>
         <div class="grid gap-5">
           <input type="text" class="input input-bordered" id="name" placeholder="Enter your name" autocomplete="off" />
-          <div class="card-actions justify-end sm:justify-between">
-            <button class="btn btn-primary btn-sm" id="webcambtn" @click="showCamera()">
+          <div class="card-actions justify-between">
+            <button class="btn btn-primary btn-sm w-full" id="webcambtn" @click="showCamera()">
               Check Cam
             </button>
             <button class="btn btn-primary btn-sm" @click="toggleCamera()">
@@ -97,7 +97,11 @@ export default {
         })
         .then((stream) => {
           myvideo.srcObject = stream;
-        });
+        }).catch((e) => {
+          alert("Camera not found");
+          this.cameraFace = "user";
+          this.showCamera();
+        })
     },
     toggleCamera() {
       this.cameraFace = this.cameraFace == "user" ? { facingMode: { exact: 'environment' } } : "user";
